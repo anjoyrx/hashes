@@ -9,7 +9,7 @@
 		
 		// methoden
 		// constructor
-		public function __construct($klantEmail, $klantWachtwoord)
+		public function __construct($klantEmail=NULL, $klantWachtwoord=NULL)
 		{
 			$this->klantEmail=$klantEmail;
 			$this->klantWachtwoord=$klantWachtwoord;
@@ -47,7 +47,62 @@
 		}
 		
 		// inloggen()    searchKlant
+		public function inloggen()
+		{
+			require "connect.php";
+			// gegevens uit het object in variabelen zetten
+			$klantEmail=$this->getKlantEmail();
+			$klantWachtwoord=$this->getKlantWachtwoord();
+			$wachtwoordHash= password_hash($klantWachtwoord, PASSWORD_DEFAULT);
+			$sql = $conn->prepare 
+				("
+					select count(*) from klanten
+					where klantemail=:klantemail 
+						and klantwachtwoord=:klantwachtwoord
+				");
+
+			// variabelen in de statement zetten
+			$sql->bindParam(":klantemail", $klantEmail);
+			echo $klantEmail;
+
+			$sql->bindParam(":klantwachtwoord", $wachtwoordHash);
+			echo $wachtwoordHash;
+			$sql->execute();
+			foreach($sql as $klant)
+				{
+					// gegevens uit de array in het object stoppen
+					// en gelijk afdrukken
+					echo implode($klant);
+					
+				}
+			// melding geven
+			echo "dit is inloggen<br/>";
+			
+		}
 		
 		// alleKlanten() readKlant
+		public function alleKlanten()
+		{
+			require "connect.php";
+			$sql = $conn->prepare
+				("
+					select * from klanten
+				");
+			$sql->execute();
+			foreach($sql as $klant)
+				{
+					// gegevens uit de array in het object stoppen
+					// en gelijk afdrukken
+					echo $this->klantEmail=$klant["klantemail"]. " - ";
+					echo $this->klantWachtwoord=$klant["klantwachtwoord"]. "<br/>";
+				}
+		}
+
+		public function afdrukkenKlant()
+		{
+			echo $this->getKlantEmail();
+			echo "<br/>";
+			echo $this->getKlantWachtwoord();
+		}
 	}
 ?>

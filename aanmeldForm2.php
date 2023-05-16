@@ -14,12 +14,13 @@
 	$klant1 = new Klant($klantEmail, $klantWachtwoord);
 	// zet het object in de database
 	$klant1->aanmelden();
+
 	// afdrukken object	
 	echo "Deze klant is aangemeld: <br/>";
-	echo $klant1->getKlantEmail();
-	echo "<br/>";
-	echo $klant1->getKlantWachtwoord();
+	$klant1->afdrukkenKlant();
+	
 	echo '<br/><br/><a href="hoofdmenu.php">Terug naar het hoofdmenu.</a>';
+	
 		
 		
 	
