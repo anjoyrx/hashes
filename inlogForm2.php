@@ -12,6 +12,6 @@
 	// maken object
 	$klant1 = new Klant($klantEmail, $klantWachtwoord);
     $klant1->inloggen();
-            
+		            
     echo '<br/><br/><a href="hoofdmenu.php">Terug naar het hoofdmenu.</a>';
 ?>

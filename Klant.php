@@ -49,37 +49,30 @@
 		// inloggen()    searchKlant
 		public function inloggen()
 		{
+			// properties uit object in variabelen zetten
+			$klantEmail=$this->klantEmail;
+			$ingevoerdeWachtwoord=$this->klantWachtwoord;
+			// verbinding met de database maken
 			require "connect.php";
-			// gegevens uit het object in variabelen zetten
-			$klantEmail=$this->getKlantEmail();
-			$klantWachtwoord=$this->getKlantWachtwoord();
-			$wachtwoordHash= password_hash($klantWachtwoord, PASSWORD_DEFAULT);
-			$sql = $conn->prepare 
+			// sql-statement klaarzetten
+			$sql = $conn->prepare
 				("
-					select count(*) from klanten
-					where klantemail=:klantemail 
-						and klantwachtwoord=:klantwachtwoord
+					select * from klanten
+					where klantEmail=:klantEmail;
 				");
-
-			// variabelen in de statement zetten
-			$sql->bindParam(":klantemail", $klantEmail);
-			echo $klantEmail;
-
-			$sql->bindParam(":klantwachtwoord", $wachtwoordHash);
-			echo $wachtwoordHash;
+			// gegevens uit de variabelen in de placeholder zetten
+			$sql->bindParam(":klantEmail", $klantEmail);	
+			// sql-statement uitvoeren
 			$sql->execute();
 			foreach($sql as $klant)
 				{
-					// gegevens uit de array in het object stoppen
-					// en gelijk afdrukken
-					echo implode($klant);
-					
-				}
-			// melding geven
-			echo "dit is inloggen<br/>";
-			
+					// controleren of de hash klopt
+					if(password_verify($ingevoerdeWachtwoord, $klant["klantWachtwoord"])) 
+					{echo "goed ingelogd<br/>";}
+					else
+					{echo "Niet ingelogd, de gegevens kloppen niet!<br/>";}
+				}			
 		}
-		
 		// alleKlanten() readKlant
 		public function alleKlanten()
 		{
@@ -93,8 +86,8 @@
 				{
 					// gegevens uit de array in het object stoppen
 					// en gelijk afdrukken
-					echo $this->klantEmail=$klant["klantemail"]. " - ";
-					echo $this->klantWachtwoord=$klant["klantwachtwoord"]. "<br/>";
+					echo $this->klantEmail=$klant["klantEmail"]. " - ";
+					echo $this->klantWachtwoord=$klant["klantWachtwoord"]. "<br/>";
 				}
 		}
 
