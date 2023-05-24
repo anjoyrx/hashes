@@ -30,18 +30,19 @@
 		public function aanmelden()
 		{
 			require "connect.php";
-			// gegevens uit het object in variabelen zetten
-			$klantEmail=$this->getKlantEmail();
-			$klantWachtwoord=$this->klantWachtwoord();
-			$wachtwoordHash= password_hash($klantWachtwoord, PASSWORD_DEFAULT);
+			
+			// hash bepalen
+			$wachtwoordHash= password_hash($this->klantWachtwoord, PASSWORD_DEFAULT);
+			
 			// sql-statement klaarzetten
 			$sql = $conn->prepare
 				("
 					insert into klanten values
 					(:klantemail, :klantwachtwoord)
 				");
-			// variabelen in de statement zetten
-			$sql->bindParam(":klantemail", $klantEmail);
+				
+			// eigenschappen / properties in de statement zetten
+			$sql->bindParam(":klantemail", $this->klantEmail);
 			$sql->bindParam(":klantwachtwoord", $wachtwoordHash);
 			$sql->execute();
 			// melding geven
@@ -51,9 +52,7 @@
 		// inloggen()    searchKlant		
 		public function inloggen()
 		{
-			// properties uit object in variabelen zetten
-			$klantEmail=$this->klantEmail;
-			$ingevoerdeWachtwoord=$this->klantWachtwoord;
+	;
 			// verbinding met de database maken
 			require "connect.php";
 			// sql-statement klaarzetten
@@ -63,14 +62,14 @@
 					where klantEmail=:klantEmail;
 				");
 			// gegevens uit de variabelen in de placeholder zetten
-			$sql->bindParam(":klantEmail", $klantEmail);	
+			$sql->bindParam(":klantEmail", $this->klantEmail);	
 			// sql-statement uitvoeren
 			$sql->execute();
 			// uitlezen array met klantgegevens
 			foreach($sql as $klant)
 				{
 					// controleren of de hash klopt
-					if(password_verify($ingevoerdeWachtwoord, $klant["klantWachtwoord"])) 
+					if(password_verify($this->klantWachtwoord, $klant["klantWachtwoord"])) 
 					{echo "goed ingelogd<br/>";}
 					else
 					{echo "Niet ingelogd, de gegevens kloppen niet!<br/>";}
