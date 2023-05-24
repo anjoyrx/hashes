@@ -22,3 +22,4 @@
 		echo "Connectie mislukt <br/>".$e->getMessage();
 	}
 ?>
+

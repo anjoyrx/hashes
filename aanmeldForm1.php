@@ -15,3 +15,4 @@
 		<a href="hoofdmenu.php">Terug naar het hoofdmenu.</a>
 	'
 ?>	
+

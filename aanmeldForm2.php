@@ -6,7 +6,7 @@
 	
 	echo "<h1>Aanmeldformulier klant 2</h1>";
 	
-	// uitlezen array van aanmelForm1.php
+	// uitlezen array van aanmeldForm1.php
 	$klantEmail=$_POST["emailvak"];
 	$klantWachtwoord=$_POST["wachtwoordvak"];
 	
@@ -20,8 +20,5 @@
 	$klant1->afdrukkenKlant();
 	
 	echo '<br/><br/><a href="hoofdmenu.php">Terug naar het hoofdmenu.</a>';
-	
-		
-		
-	
 ?>
+

@@ -14,6 +14,7 @@
 			$this->klantEmail=$klantEmail;
 			$this->klantWachtwoord=$klantWachtwoord;
 		}
+		
 		// setters (nu nog niet nodig)
 		// getters
 		public function getKlantEmail()
@@ -31,8 +32,9 @@
 			require "connect.php";
 			// gegevens uit het object in variabelen zetten
 			$klantEmail=$this->getKlantEmail();
-			$klantWachtwoord=$this->getKlantWachtwoord();
+			$klantWachtwoord=$this->klantWachtwoord();
 			$wachtwoordHash= password_hash($klantWachtwoord, PASSWORD_DEFAULT);
+			// sql-statement klaarzetten
 			$sql = $conn->prepare
 				("
 					insert into klanten values
@@ -46,7 +48,7 @@
 			echo "De klant is in de database gezet.<br/>";
 		}
 		
-		// inloggen()    searchKlant
+		// inloggen()    searchKlant		
 		public function inloggen()
 		{
 			// properties uit object in variabelen zetten
@@ -64,6 +66,7 @@
 			$sql->bindParam(":klantEmail", $klantEmail);	
 			// sql-statement uitvoeren
 			$sql->execute();
+			// uitlezen array met klantgegevens
 			foreach($sql as $klant)
 				{
 					// controleren of de hash klopt
@@ -73,6 +76,7 @@
 					{echo "Niet ingelogd, de gegevens kloppen niet!<br/>";}
 				}			
 		}
+				
 		// alleKlanten() readKlant
 		public function alleKlanten()
 		{
@@ -82,6 +86,7 @@
 					select * from klanten
 				");
 			$sql->execute();
+			// uitlezen array met klantgegevens
 			foreach($sql as $klant)
 				{
 					// gegevens uit de array in het object stoppen
