@@ -7,7 +7,7 @@
             <h1>Inlogformulier 1</h1>
             <form action="inlogForm2.php" method="post">
             email: <br/>
-            <input type="text" id="emailvak" name="emailvak"><br/>
+            <input type="email" id="emailvak" name="emailvak"><br/>
             wachtwoord: <br/>
             <input type="password" id="wachtwoordvak" name="wachtwoordvak"><br/><br/>
             <input type="submit"><br/><br/>
