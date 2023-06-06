@@ -3,7 +3,7 @@
 	// Anjo Eijeriks
 		class Klant
 		{
-		// variabelen
+		// variabelen properties
 		protected $klantEmail;
 		protected $klantWachtwoord;
 		
